@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 
 # Supported video formats. Hardcoded
-video_formats = ['.avi', '.mkv', 'mp4']
+video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
 language = "en"
 
