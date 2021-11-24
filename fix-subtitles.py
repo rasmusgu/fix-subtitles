@@ -44,6 +44,7 @@ def getSub(targetEAS, list):
 # Downloads subtitles for (video)file using subliminal
 def downloadSubtitles(videoFile):
     print("Downloading subtitles using subliminal")
+    # Encases filename in quotation marks
     quotedVideoFile = '"' + videoFile + '"'
     # Hard coded (for now) language format
     language_format = "en"
