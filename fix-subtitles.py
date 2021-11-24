@@ -10,15 +10,16 @@ video_formats = ['.avi', '.mkv', '.mp4']
 language = "en"
 # Which subtitle the script should look for in your files
 # for synchronisation purposes
-subtitle_lang_formats = ['.en', '.eng']
+subtitle_lang_formats = ['.en', '.eng']     # deprecated
 # Hardcoded subtitle format
 subtitle_format = ".srt"
+# To be implemented later
+subtitle_formats = ['.srt']
 
 # Creates a list of the current directory files
 listCurrentDirectory = os.listdir(path='.')
 # Sort the list in lexicographical order
 listCurrentDirectory.sort()
-#print(listCurrentDirectory)
 
 # Checks a filename for its episode and season, if applicable       # Currently only episode
 # Assumes the first numbers in a series' filename to be S01E05 format!!
@@ -67,54 +68,26 @@ def downloadSubtitles(videoFile):
 # Syncs the chosen video's subtitles to its audio reel using ffsubsync
 def syncSubtitles(videoFile):
     #print("Synchronising subtitles for ", videoFile, " using ffsubsync")
-    # Guesses the subtitle file based on video file     # Change to taking the "matching" sub file name from the matching sequence of this code
-    videoFile = videoFile
-    #episodeIndex = episodeList.index(videoFile)        # unused - useless?
     
-    # Variable for language format of subtitle
     # Video title's "EAS"
     vidEAS = episodeAndSeason(videoFile)
     # Subtitle filename matching video's "EAS"
     subFile = getSub(vidEAS, subtitleList)
     checkMatch(videoFile, subFile)          # Useless since they've already been matched above
     
-    # Initialisation of variable
-    syncedsubFormat=""
-    # Checks whether the subtitle is formatted .en or .eng
-    if any(format in subFile for format in subtitle_lang_formats):
-        print("Format (lang): ", format)
-        format_str = str(format)        # built in function format
-        print("String of format: ", format_str)
-        subFormat = subtitle_format     # used to incorporate subtitle_language_formats
-        syncedsubFormat = ".retimed" + subtitle_format
-        # Testing purposes
-        #input("Wait here...")
-    
-    #if ".eng.srt" in subFile:
-    #    subFormat = ".eng.srt"
-    #    syncedsubFormat = ".eng.retimed.srt"
-    #elif ".en.srt" in subFile:
-    #    subFormat = ".en.srt"
-    #    syncedsubFormat = ".en.retimed.srt"
+    # Synced subtitle format
+    syncedsubFormat = ".retimed" + subtitle_format
     
     # Reformatting of the synchronised file to ".retimed.srt"
-    syncedSubFile = subFile.replace(subFormat, syncedsubFormat)         # Fix to include .en.srt
+    syncedSubFile = subFile.replace(subtitle_format, syncedsubFormat)
     
-    # Calls ffsubsync using the appropriate parameters
-    quotedList = [videoFile, subFile, syncedSubFile]
-    x = 0
-    for i in quotedList:
-        quotedList[x] = '"' + quotedList[x] + '"'
-        x += 1
-    # Creates a list out of the command             # Pointless? It's made into a string later anyway
-    commandList = "ffsubsync", quotedList[0], "-i", quotedList[1], "-o", quotedList[2]
-    
-    # Initialising variable
-    command = ""
-    # Creates  a string with spaces between list 
-    # entries in order to be used as a command
-    for i in commandList:
-        command=command+i+" "
+    # Quoted variables due to blank spaces in filenames
+    quotedVideoFile = '"' + videoFile + '"'
+    quotedSubFile = '"' + subFile + '"'
+    quotedSyncedSubfile = '"' + syncedSubFile + '"'
+
+    # ffsubsync command with appropriate parameters
+    command = "ffsubsync " + quotedVideoFile + " -i " + quotedSubFile + " -o " + quotedSyncSubFile
     # Print testing
     print("cmd: ", command)
     
@@ -136,9 +109,11 @@ episodeList = []
 
 for file in listCurrentDirectory:
     if any(format in file for format in video_formats):
-        print(format)
+        # Print test
+        #print(format)
         episodeList.append(file)
-print("Episode list: ", episodeList)   # Testing code
+# Print test
+#print("Episode list: ", episodeList)
 seasonLength = len(episodeList)
 print ("Amount of episodes: ", seasonLength)
 
