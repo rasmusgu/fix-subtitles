@@ -1,14 +1,18 @@
 # fix-subtitles
-Uses ffsubsync to synchronise all subtitles in the working directory to their respective video files, also present.
+Uses sublimininal to download missing subtitles and ffsubsync to synchronise them to their respective video files' audio streams
+
 It's mainly for my personal use and at the moment is heavily hardcoded to specific instances
 
 ## Assumptions
 - the directory comprises of a single movie file or several videos for a single season of a single series
 - all files are marked with "S01E08" format -- those being the first numerical markings of the video/subtitle files
 
-## WIP:
+## New additions
 - subliminal
-	- Missing subtitle downloading
+	- automatic missing subtitle downloading
+		- currently hardcoded for the English language
+
+## WIP:
 - Interface
 	- download all or a single subtitle
 	- synchronise all a single subtitle
@@ -20,4 +24,4 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 ## Dependencies:
 - ffsubsync
 - ffmpeg
-- subliminal (not yet)
+- subliminal
