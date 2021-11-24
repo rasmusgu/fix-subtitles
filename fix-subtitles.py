@@ -8,9 +8,17 @@ from colorama import Fore, Back, Style
 video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
 language = "en"
+# Which subtitle the script should look for in your files
+# for synchronisation purposes
+subtitle_lang_formats = ['.en', '.eng']
+# Hardcoded subtitle format
+subtitle_format = ".srt"
 
 # Creates a list of the current directory files
 listCurrentDirectory = os.listdir(path='.')
+# Sort the list in lexicographical order
+listCurrentDirectory.sort()
+#print(listCurrentDirectory)
 
 # Checks a filename for its episode and season, if applicable       # Currently only episode
 # Assumes the first numbers in a series' filename to be S01E05 format!!
@@ -64,23 +72,33 @@ def syncSubtitles(videoFile):
     #episodeIndex = episodeList.index(videoFile)        # unused - useless?
     
     # Variable for language format of subtitle
-    subLangFormat = ""
     # Video title's "EAS"
     vidEAS = episodeAndSeason(videoFile)
     # Subtitle filename matching video's "EAS"
     subFile = getSub(vidEAS, subtitleList)
     checkMatch(videoFile, subFile)          # Useless since they've already been matched above
     
+    # Initialisation of variable
+    syncedsubFormat=""
     # Checks whether the subtitle is formatted .en or .eng
-    if ".eng" in subFile:
-        subLangFormat = ".eng.srt"
-        syncedsubLangFormat = ".eng.retimed.srt"
-    elif ".en" in subFile:
-        subLangFormat = ".en.srt"
-        syncedsubLangFormat = ".en.retimed.srt"
+    if any(format in subFile for format in subtitle_lang_formats):
+        print("Format (lang): ", format)
+        format_str = str(format)        # built in function format
+        print("String of format: ", format_str)
+        subFormat = subtitle_format     # used to incorporate subtitle_language_formats
+        syncedsubFormat = ".retimed" + subtitle_format
+        # Testing purposes
+        #input("Wait here...")
+    
+    #if ".eng.srt" in subFile:
+    #    subFormat = ".eng.srt"
+    #    syncedsubFormat = ".eng.retimed.srt"
+    #elif ".en.srt" in subFile:
+    #    subFormat = ".en.srt"
+    #    syncedsubFormat = ".en.retimed.srt"
     
     # Reformatting of the synchronised file to ".retimed.srt"
-    syncedSubFile = subFile.replace(subLangFormat, syncedsubLangFormat)         # Fix to include .en.srt
+    syncedSubFile = subFile.replace(subFormat, syncedsubFormat)         # Fix to include .en.srt
     
     # Calls ffsubsync using the appropriate parameters
     quotedList = [videoFile, subFile, syncedSubFile]
@@ -116,18 +134,20 @@ def synchronise_all():
 # List of episodes
 episodeList = []
 
-for i in listCurrentDirectory:
-    if any(format in i for format in video_formats):
-        episodeList.append(i)
+for file in listCurrentDirectory:
+    if any(format in file for format in video_formats):
+        print(format)
+        episodeList.append(file)
 print("Episode list: ", episodeList)   # Testing code
 seasonLength = len(episodeList)
 print ("Amount of episodes: ", seasonLength)
 
 # List of subtitles
 subtitleList = []
-for i in listCurrentDirectory:
-    if ".srt" in i:
-        subtitleList.append(i)
+
+for file in listCurrentDirectory:
+    if ".srt" in file:
+        subtitleList.append(file)
 subtitleAmount = len(subtitleList)
 print("Amount of subtitles: ", subtitleAmount)
 
@@ -143,21 +163,21 @@ print("Amount of subtitles: ", subtitleAmount)
 noMatches = []
 print("Checking for missing subtitles")
 # Checks if a video file is missing a subtitle file
-for i in episodeList:
+for episode in episodeList:
     # Print testing
-    #print("New episode : ", episodeAndSeason(i))
+    #print("New episode : ", episodeAndSeason(episode))
     # Resets the match variable from the previous episode
     match = False
     # Makes sure the while only runs once. Useless?
     x = 0
     while match == False and x < 1:
-        for y in subtitleList:
-            if episodeAndSeason(i) == episodeAndSeason(y):
+        for subtitle in subtitleList:
+            if episodeAndSeason(episode) == episodeAndSeason(subtitle):
                 match = True
                 # Print testing
-                #print("It's a match for episode ", episodeAndSeason(i), " and ", episodeAndSeason(y))
+                #print("It's a match for episode ", episodeAndSeason(episode), " and ", episodeAndSeason(subtitle))
         if match == False:
-            noMatches.append(i)
+            noMatches.append(episode)
         x += 1
         
 
