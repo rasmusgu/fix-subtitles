@@ -16,10 +16,9 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 - Interface
 	- download all or a single subtitle
 	- synchronise all or a single subtitle
-- Support for various media and subtitle formats
-	- Currently only .avi and .srt
-		- only en.srt and eng.srt as language formats as well
-	- Looking to support integrated subtitles as well (?)
+- Support for various media formats and languages
+	- currently only avi/mp4/mkv and "en" 
+- Looking to support integrated subtitles as well (?)
 
 ## Dependencies:
 - ffsubsync
