@@ -12,9 +12,7 @@ listCurrentDirectory = os.listdir(path='.')
 # Assumes the first numbers in a series' filename to be S01E05 format!!
 def episodeAndSeason(fileName):
     # Checks for digits/numbers in the file name
-    numbers = [int (i) for i in fileName
-        if i.isdigit()
-    ]
+    numbers = [int (i) for i in fileName if i.isdigit()]
     # Turns digits into single coherent number
     # In this case, due to S01E06 format, takes the 3rd and 4th digit
     str_epandseason = str(numbers[2]) + str(numbers[3])
@@ -27,6 +25,7 @@ def episodeAndSeason(fileName):
 def checkMatch(videoFile, subtitleFile):
     if episodeAndSeason(videoFile) == episodeAndSeason(subtitleFile):
         # Print testing
+        # Fancy coloring of colorama
         print(Fore.GREEN + "Match found " + Style.RESET_ALL + "between ", videoFile, " and ", subtitleFile)
         return True
     else:
@@ -43,9 +42,16 @@ def getSub(targetEAS, list):
             return i
     
 # Downloads subtitles for (video)file using subliminal
-def downloadSubtitles(file):
+def downloadSubtitles(videoFile):
     print("Downloading subtitles using subliminal")
-    #subliminal(file)
+    quotedVideoFile = '"' + videoFile + '"'
+    # Hard coded (for now) language format
+    language_format = "en"
+    # String of the command
+    cmd = ("subliminal download -l " + language_format + " " + quotedVideoFile)
+    print("Command: ", cmd)
+    # Execution of command by shell/system
+    os.system(cmd)
     
 # Syncs the chosen video's subtitles to its audio reel using ffsubsync
 def syncSubtitles(videoFile):
@@ -82,15 +88,28 @@ def syncSubtitles(videoFile):
     # Creates a list out of the command             # Pointless? It's made into a string later anyway
     commandList = "ffsubsync", quotedList[0], "-i", quotedList[1], "-o", quotedList[2]
     
-    # Creates  a string with spaces between previous list 
-    # entries in order to be used as a command
+    # Initialising variable
     command = ""
+    # Creates  a string with spaces between list 
+    # entries in order to be used as a command
     for i in commandList:
         command=command+i+" "
     # Print testing
     print("cmd: ", command)
+    
+    # Send command to be executed by "shell" or "system"
     os.system(command)
     
+def synchronise_all():
+    # Fancy coloring of colorama
+    print(Fore.RED + "Synchronising " + Style.RESET_ALL + "all subtitles to their respective videos")
+    # Synchronises all subtitles to their 
+    # respective videos in current directory        # Make into a callable function?
+    for i in episodeList:
+        syncSubtitles(i)
+
+############### END OF DEFINITIONS ###############
+
 # List of episodes
 episodeList = []
 for i in listCurrentDirectory:
@@ -153,7 +172,7 @@ noMatches)
                        
 if len(noMatches) > 0:
     # Download subtitles for episodes missing .srt file
-    print("Downloading missing subtitles")
+    #print("Downloading missing subtitles")
     for i in noMatches:
         downloadSubtitles(i)
     print("Done downloading missing subtitles!")        # Add error checking
@@ -164,7 +183,4 @@ if len(noMatches) > 0:
         syncSubtitles(i)
     print("Done synchronising previously missing subtitles!")       # Add error checking
     
-# Synchronises all subtitles to their respective videos
-print(Fore.RED + "Synchronising " + Style.RESET_ALL + "all subtitles to their respective videos")
-for i in episodeList:
-    syncSubtitles(i)
+#synchronise_all()
