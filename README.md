@@ -8,14 +8,14 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 - all files are marked with "S01E08" format -- those being the first numerical markings of the video/subtitle files
 
 ## New additions
-- subliminal
+- Subliminal
 	- automatic missing subtitle downloading
 		- currently hardcoded for the English language
 
 ## WIP:
 - Interface
 	- download all or a single subtitle
-	- synchronise all a single subtitle
+	- synchronise all or a single subtitle
 - Support for various media and subtitle formats
 	- Currently only .avi and .srt
 		- only en.srt and eng.srt as language formats as well
