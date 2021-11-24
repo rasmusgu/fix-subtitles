@@ -4,6 +4,9 @@ from colorama import Fore, Back, Style
 # Terminology
 # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 
+video_formats = ['.avi', '.mkv', 'mp4']
+language_format = "en"
+
 # Creates a list of the current directory files
 listCurrentDirectory = os.listdir(path='.')
 
@@ -45,8 +48,6 @@ def downloadSubtitles(videoFile):
     print("Downloading subtitles using subliminal")
     # Encases filename in quotation marks
     quotedVideoFile = '"' + videoFile + '"'
-    # Hard coded (for now) language format
-    language_format = "en"
     # String of the command
     cmd = ("subliminal download -l " + language_format + " " + quotedVideoFile)
     print("Command: ", cmd)
@@ -112,10 +113,11 @@ def synchronise_all():
 
 # List of episodes
 episodeList = []
+
 for i in listCurrentDirectory:
-    if '.avi' in i:
+    if any(format in i for format in video_formats):
         episodeList.append(i)
-#print("Episode list: ", episodeList)   # Testing code
+print("Episode list: ", episodeList)   # Testing code
 seasonLength = len(episodeList)
 print ("Amount of episodes: ", seasonLength)
 
