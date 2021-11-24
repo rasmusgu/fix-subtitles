@@ -1,5 +1,4 @@
 import os
-import ffsubsync
 from colorama import Fore, Back, Style
 
 # Terminology
