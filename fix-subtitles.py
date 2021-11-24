@@ -4,8 +4,10 @@ from colorama import Fore, Back, Style
 # Terminology
 # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 
+# Supported video formats. Hardcoded
 video_formats = ['.avi', '.mkv', 'mp4']
-language_format = "en"
+# Preferred subtitle language
+language = "en"
 
 # Creates a list of the current directory files
 listCurrentDirectory = os.listdir(path='.')
@@ -35,7 +37,7 @@ def checkMatch(videoFile, subtitleFile):
         print("The files, ", videoFile, " and ", subtitleFile, " were not a match")
         return False
 
-# Compares "S01E08" of target file to a whole list
+# Compares "S01E08" (EAS) of target file to a whole list
 # and returns the first match           # Suggestion: return all matches
 def getSub(targetEAS, list):
     for i in list:
@@ -49,7 +51,7 @@ def downloadSubtitles(videoFile):
     # Encases filename in quotation marks
     quotedVideoFile = '"' + videoFile + '"'
     # String of the command
-    cmd = ("subliminal download -l " + language_format + " " + quotedVideoFile)
+    cmd = ("subliminal download -l " + language + " " + quotedVideoFile)
     print("Command: ", cmd)
     # Execution of command by shell/system
     os.system(cmd)
