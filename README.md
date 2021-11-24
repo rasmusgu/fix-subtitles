@@ -32,7 +32,7 @@ Install ffsubsync and subliminal through pipx:
 
 Clone the repository
 
-`clone https://github.com/rasmusgu/fix-subtitles'
+`clone https://github.com/rasmusgu/fix-subtitles`
  
 ### Windows
 You have to install ffmpeg manually and set it to your path through your environment variables for ffsubsync to work.
