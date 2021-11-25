@@ -126,34 +126,24 @@ for file in listCurrentDirectory:
 subtitleAmount = len(subtitleList)
 print("Amount of subtitles: ", subtitleAmount)
 
-# Checks if there are the same amount of episode and subtitle files
-#if len(subtitleList) != len(episodeList):
-#    subepmatch = False
-#else:
-#    subepmatch = True
-# Print testing
-#print("Episode and subtitle count match: ", subepmatch)
-
 # List of episodes without matches
 noMatches = []
+
 print("Checking for missing subtitles")
 # Checks if a video file is missing a subtitle file
 for episode in episodeList:
     # Print testing
     #print("New episode : ", episodeAndSeason(episode))
-    # Resets the match variable from the previous episode
+    
+    # Resets the match variable to False
     match = False
-    # Makes sure the while only runs once. Useless?
-    x = 0
-    while match == False and x < 1:
-        for subtitle in subtitleList:
-            if episodeAndSeason(episode) == episodeAndSeason(subtitle):
-                match = True
-                # Print testing
-                #print("It's a match for episode ", episodeAndSeason(episode), " and ", episodeAndSeason(subtitle))
-        if match == False:
-            noMatches.append(episode)
-        x += 1
+    for subtitle in subtitleList:
+        if episodeAndSeason(episode) == episodeAndSeason(subtitle):
+            match = True
+            # Print testing
+            #print("It's a match for episode ", episodeAndSeason(episode), " and subtitle", episodeAndSeason(subtitle))
+    if match == False:
+        noMatches.append(episode)
         
 
 # Corrects next code block's spelling to singular or plural 
@@ -171,15 +161,15 @@ noMatches)
                        
 if len(noMatches) > 0:
     # Download subtitles for episodes missing .srt file
-    #print("Downloading missing subtitles")
-    for i in noMatches:
-        downloadSubtitles(i)
+    print("Downloading missing subtitles")
+    for episode in noMatches:
+        downloadSubtitles(episode)
     print("Done downloading missing subtitles!")        # Add error checking
     # Synchronises previously missing subtitles to their respective videos
     # Useless? Make synchronisation universal?
     print("Synchronising previously missing subtitles!")
-    for i in noMatches:
-        syncSubtitles(i)
+    for video in noMatches:
+        syncSubtitles(video)
     print("Done synchronising previously missing subtitles!")       # Add error checking
     
 #synchronise_all()
