@@ -49,10 +49,10 @@ def checkMatch(videoFile, subtitleFile):
 # Compares "S01E08" (EAS) of target file to a whole list
 # and returns the first match           # Suggestion: return all matches
 def getSub(targetEAS, list):
-    for i in list:
-        if episodeAndSeason(i) == targetEAS:
-            #print("The matching subtitle was ", i)
-            return i
+    for subtitle in list:
+        if episodeAndSeason(subtitle) == targetEAS:
+            #print("The matching subtitle was ", subtitle)
+            return subtitle
     
 # Downloads subtitles for (video)file using subliminal
 def downloadSubtitles(videoFile):
@@ -96,11 +96,11 @@ def syncSubtitles(videoFile):
     
 def synchronise_all():
     # Fancy coloring of colorama
-    print(Fore.RED + "Synchronising " + Style.RESET_ALL + "all subtitles to their respective videos")
+    print(Fore.RED + "Synchronising all " + Style.RESET_ALL + "subtitles to their respective videos")
     # Synchronises all subtitles to their 
-    # respective videos in current directory        # Make into a callable function?
-    for i in episodeList:
-        syncSubtitles(i)
+    # respective videos in current directory
+    for episode in episodeList:
+        syncSubtitles(episode)
 
 ############### END OF DEFINITIONS ###############
 
