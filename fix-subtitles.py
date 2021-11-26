@@ -4,6 +4,9 @@ from colorama import Fore, Back, Style
 # Terminology
 # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 
+# Change below to True to synchronise all subtitles, new or old
+sync_all = True
+
 # Supported video formats. Hardcoded
 video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
@@ -158,7 +161,8 @@ if len(noMatches) == 1:
 print("There ", wasorwere, len(noMatches), 
 eporeps, " without external* subtitle(s), as follows: ", 
 noMatches)
-                       
+                  
+# Only runs if 1 or more subtitles were missing                  
 if len(noMatches) > 0:
     # Download subtitles for episodes missing .srt file
     print("Downloading missing subtitles")
@@ -171,5 +175,6 @@ if len(noMatches) > 0:
     for video in noMatches:
         syncSubtitles(video)
     print("Done synchronising previously missing subtitles!")       # Add error checking
-    
-#synchronise_all()
+
+if sync_all:    
+    synchronise_all()
