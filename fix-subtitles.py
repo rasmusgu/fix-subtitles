@@ -8,13 +8,12 @@ from colorama import Fore, Back, Style
 video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
 language = "en"
-# Which subtitle the script should look for in your files
-# for synchronisation purposes
+# Supported subtitle lang formats       #deprecated
 subtitle_lang_formats = ['.en', '.eng']     # deprecated
 # Hardcoded subtitle format
 subtitle_format = ".srt"
-# To be implemented later
-subtitle_formats = ['.srt']
+# Supported subtitle formats. To be implemented later
+subtitle_formats = ['.srt']     #wip
 
 # Creates a list of the current directory files
 listCurrentDirectory = os.listdir(path='.')
@@ -141,7 +140,8 @@ for episode in episodeList:
         if episodeAndSeason(episode) == episodeAndSeason(subtitle):
             match = True
             # Print testing
-            #print("It's a match for episode ", episodeAndSeason(episode), " and subtitle", episodeAndSeason(subtitle))
+            print("It's a match for episode ", episodeAndSeason(episode), 
+            " and subtitle", episodeAndSeason(subtitle))
     if match == False:
         noMatches.append(episode)
         
@@ -154,9 +154,9 @@ if len(noMatches) == 1:
     wasorwere = "was "
     eporeps = " episode"
     
-# Print episodes without subtitles
+# Print episode(s) without subtitles
 print("There ", wasorwere, len(noMatches), 
-eporeps, " without subtitle(s), as follows: ", 
+eporeps, " without external* subtitle(s), as follows: ", 
 noMatches)
                        
 if len(noMatches) > 0:
