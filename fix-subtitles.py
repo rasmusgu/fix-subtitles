@@ -12,169 +12,175 @@ video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
 language = "en"
 # Supported subtitle lang formats       #deprecated
-subtitle_lang_formats = ['.en', '.eng']     # deprecated
+subtitle_lang_formats = ['.en', '.eng']  # deprecated
 # Hardcoded subtitle format
 subtitle_format = ".srt"
 # Supported subtitle formats. To be implemented later
-subtitle_formats = ['.srt']     #wip
+subtitle_formats = ['.srt']  # wip
 
 # Creates a list of the current directory files
-listCurrentDirectory = os.listdir(path='.')
+current_directory_list = os.listdir(path='.')
 # Sort the list in lexicographical order
-listCurrentDirectory.sort()
+current_directory_list.sort()
+
 
 # Checks a filename for its episode and season, if applicable       # Currently only episode
 # Assumes the first numbers in a series' filename to be S01E05 format!!
-def episodeAndSeason(fileName):
+def episode_and_season(file_name):
     # Checks for digits/numbers in the file name
-    numbers = [int (i) for i in fileName if i.isdigit()]
+    numbers = [int(i) for i in file_name if i.isdigit()]
     # Turns digits into single coherent number
     # In this case, due to S01E06 format, takes the 3rd and 4th digit
     str_epandseason = str(numbers[2]) + str(numbers[3])
     # Creates an integer out of the string
     epandseason = int(str_epandseason)
     return epandseason
-    
-# Checks if videofile and subtitle file have 
+
+
+# Checks if video file and subtitle file have
 # same episode/season S01E07 style
-def checkMatch(videoFile, subtitleFile):
-    if episodeAndSeason(videoFile) == episodeAndSeason(subtitleFile):
+def check_match(video_file, subtitle_file):
+    if episode_and_season(video_file) == episode_and_season(subtitle_file):
         # Print testing
-        # Fancy coloring of colorama
-        print(Fore.GREEN + "Match found " + Style.RESET_ALL + "between ", videoFile, " and ", subtitleFile)
+        # Fancy coloring from colorama
+        print(Fore.GREEN + "Match found " + Style.RESET_ALL + "between ", video_file, " and ", subtitle_file)
         return True
     else:
         # Print testing
-        print("The files, ", videoFile, " and ", subtitleFile, " were not a match")
+        print("The files, ", video_file, " and ", subtitle_file, " were not a match")
         return False
+
 
 # Compares "S01E08" (EAS) of target file to a whole list
 # and returns the first match           # Suggestion: return all matches
-def getSub(targetEAS, list):
+def get_sub(target_EAS, list):
     for subtitle in list:
-        if episodeAndSeason(subtitle) == targetEAS:
-            #print("The matching subtitle was ", subtitle)
+        if episode_and_season(subtitle) == target_EAS:
+            # print("The matching subtitle was ", subtitle)
             return subtitle
-    
+
+
 # Downloads subtitles for (video)file using subliminal
-def downloadSubtitles(videoFile):
+def download_subtitles(video_file):
     print("Downloading subtitles using subliminal")
     # Encases filename in quotation marks
-    quotedVideoFile = '"' + videoFile + '"'
+    quoted_video_file = '"' + video_file + '"'
     # String of the command
-    cmd = ("subliminal download -l " + language + " " + quotedVideoFile)
+    cmd = ("subliminal download -l " + language + " " + quoted_video_file)
     print("Command: ", cmd)
     # Execution of command by shell/system
     os.system(cmd)
-    
+
+
 # Syncs the chosen video's subtitles to its audio reel using ffsubsync
-def syncSubtitles(videoFile):
-    #print("Synchronising subtitles for ", videoFile, " using ffsubsync")
-    
+def sync_subtitles(video_file):
+    # print("Synchronising subtitles for ", video_file, " using ffsubsync")
+
     # Video title's "EAS"
-    vidEAS = episodeAndSeason(videoFile)
+    vid_EAS = episode_and_season(video_file)
     # Subtitle filename matching video's "EAS"
-    subFile = getSub(vidEAS, subtitleList)
-    checkMatch(videoFile, subFile)          # Useless since they've already been matched above
-    
+    subtitle_file = get_sub(vid_EAS, subtitle_list)
+    check_match(video_file, subtitle_file)  # Useless since they've already been matched above
+
     # Synced subtitle format
-    syncedsubFormat = ".retimed" + subtitle_format
-    
+    synced_subtitle_format = ".retimed" + subtitle_format
+
     # Reformatting of the synchronised file to ".retimed.srt"
-    syncedSubFile = subFile.replace(subtitle_format, syncedsubFormat)
-    
+    synced_subtitle_file = subtitle_file.replace(subtitle_format, synced_subtitle_format)
+
     # Quoted variables due to blank spaces in filenames
-    quotedVideoFile = '"' + videoFile + '"'
-    quotedSubFile = '"' + subFile + '"'
-    quotedSyncedSubfile = '"' + syncedSubFile + '"'
+    quoted_video_file = '"' + video_file + '"'
+    quoted_subtitle_file = '"' + subtitle_file + '"'
+    quoted_synced_subtitle_file = '"' + synced_subtitle_file + '"'
 
     # ffsubsync command with appropriate parameters
-    command = "ffsubsync " + quotedVideoFile + " -i " + quotedSubFile + " -o " + quotedSyncSubFile
+    command = "ffsubsync " + quoted_video_file + " -i " + quoted_subtitle_file + " -o " + quoted_synced_subtitle_file
     # Print testing
     print("cmd: ", command)
-    
+
     # Send command to be executed by "shell" or "system"
     os.system(command)
-    
+
+
 def synchronise_all():
     # Fancy coloring of colorama
     print(Fore.RED + "Synchronising all " + Style.RESET_ALL + "subtitles to their respective videos")
     # Synchronises all subtitles to their 
     # respective videos in current directory
     for episode in episodeList:
-        syncSubtitles(episode)
+        sync_subtitles(episode)
+
 
 ############### END OF DEFINITIONS ###############
 
 # List of episodes
 episodeList = []
 
-for file in listCurrentDirectory:
+for file in current_directory_list:
     if any(format in file for format in video_formats):
         # Print test
-        #print(format)
+        # print(format)
         episodeList.append(file)
 # Print test
-#print("Episode list: ", episodeList)
+# print("Episode list: ", episodeList)
 seasonLength = len(episodeList)
-print ("Amount of episodes: ", seasonLength)
+print("Amount of episodes: ", seasonLength)
 
 # List of subtitles
-subtitleList = []
+subtitle_list = []
 
-for file in listCurrentDirectory:
+for file in current_directory_list:
     if ".srt" in file:
-        subtitleList.append(file)
-subtitleAmount = len(subtitleList)
+        subtitle_list.append(file)
+subtitleAmount = len(subtitle_list)
 print("Amount of subtitles: ", subtitleAmount)
 
 # List of episodes without matches
-noMatches = []
+no_matches = []
 
 print("Checking for missing subtitles")
 # Checks if a video file is missing a subtitle file
 for episode in episodeList:
     # Print testing
-    #print("New episode : ", episodeAndSeason(episode))
-    
+    # print("New episode : ", episode_and_season(episode))
+
     # Resets the match variable to False
     match = False
-    for subtitle in subtitleList:
-        if episodeAndSeason(episode) == episodeAndSeason(subtitle):
+    for subtitle in subtitle_list:
+        if episode_and_season(episode) == episode_and_season(subtitle):
             match = True
             # Print testing
-            print("It's a match for episode ", episodeAndSeason(episode), 
-            " and subtitle", episodeAndSeason(subtitle))
-    if match == False:
-        noMatches.append(episode)
-        
+            print("It's a match for episode ", episode_and_season(episode),
+                  " and subtitle", episode_and_season(subtitle))
+    if not match:
+        no_matches.append(episode)
 
 # Corrects next code block's spelling to singular or plural 
-# based on amount referred to (elements of noMatches list)
-wasorwere = "were "
-eporeps = " episodes"
-if len(noMatches) == 1:
-    wasorwere = "was "
-    eporeps = " episode"
-    
+# based on amount referred to (elements of no_matches list)
+was_or_were = "were "
+ep_or_eps = " episodes"
+if len(no_matches) == 1:
+    was_or_were = "was "
+    ep_or_eps = " episode"
+
 # Print episode(s) without subtitles
-print("There ", wasorwere, len(noMatches), 
-eporeps, " without external* subtitle(s), as follows: ", 
-noMatches)
-                  
+print("There ", was_or_were, len(no_matches),
+      ep_or_eps, " without external* subtitle(s), as follows: ",
+      no_matches)
+
 # Only runs if 1 or more subtitles were missing                  
-if len(noMatches) > 0:
+if len(no_matches) > 0:
     # Download subtitles for episodes missing .srt file
     print("Downloading missing subtitles")
-    for episode in noMatches:
-        downloadSubtitles(episode)
-    print("Done downloading missing subtitles!")        # Add error checking
+    for episode in no_matches:
+        download_subtitles(episode)
+    print("Done downloading missing subtitles!")  # Add error checking
     # Synchronises previously missing subtitles to their respective videos
     # Useless? Make synchronisation universal?
     print("Synchronising previously missing subtitles!")
-    for video in noMatches:
-        syncSubtitles(video)
-    print("Done synchronising previously missing subtitles!")       # Add error checking
+    for video in no_matches:
+        sync_subtitles(video)
+    print("Done synchronising previously missing subtitles!")  # Add error checking
 
-if sync_all:    
+if sync_all:
     synchronise_all()
