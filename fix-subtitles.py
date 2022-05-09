@@ -23,6 +23,8 @@ current_directory_list = os.listdir(path='.')
 # Sort the list in lexicographical order
 current_directory_list.sort()
 
+print("Current directory files:", current_directory_list)
+
 
 # Checks a filename for its episode and season, if applicable       # Currently only episode
 # Assumes the first numbers in a series' filename to be S01E05 format!!
@@ -136,7 +138,7 @@ subtitleAmount = len(subtitle_list)
 print("Amount of subtitles: ", subtitleAmount)
 
 # List of episodes without matches
-no_matches = []
+no_subtitles = []
 
 print("Checking for missing subtitles")
 # Checks if a video file is missing a subtitle file
@@ -153,32 +155,32 @@ for episode in episodeList:
             print("It's a match for episode ", episode_and_season(episode),
                   " and subtitle", episode_and_season(subtitle))
     if not match:
-        no_matches.append(episode)
+        no_subtitles.append(episode)
 
 # Corrects next code block's spelling to singular or plural 
-# based on amount referred to (elements of no_matches list)
+# based on amount referred to (elements of no_subtitles list)
 was_or_were = "were "
 ep_or_eps = " episodes"
-if len(no_matches) == 1:
+if len(no_subtitles) == 1:
     was_or_were = "was "
     ep_or_eps = " episode"
 
 # Print episode(s) without subtitles
-print("There ", was_or_were, len(no_matches),
+print("There ", was_or_were, len(no_subtitles),
       ep_or_eps, " without external* subtitle(s), as follows: ",
-      no_matches)
+      no_subtitles)
 
 # Only runs if 1 or more subtitles were missing                  
-if len(no_matches) > 0:
+if len(no_subtitles) > 0:
     # Download subtitles for episodes missing .srt file
     print("Downloading missing subtitles")
-    for episode in no_matches:
+    for episode in no_subtitles:
         download_subtitles(episode)
     print("Done downloading missing subtitles!")  # Add error checking
     # Synchronises previously missing subtitles to their respective videos
     # Useless? Make synchronisation universal?
     print("Synchronising previously missing subtitles!")
-    for video in no_matches:
+    for video in no_subtitles:
         sync_subtitles(video)
     print("Done synchronising previously missing subtitles!")  # Add error checking
 

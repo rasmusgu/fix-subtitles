@@ -5,7 +5,7 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 
 ### Assumptions
 - the directory comprises of a single movie file or several videos for a single season of a single series
-- all files are marked with "S01E08" format -- those being the first numerical markings of the video/subtitle files
+- all files are top level (not in directories) and marked with "S01E08" format -- those being the first numerical markings of the video/subtitle files
 
 ### New additions
 - Subliminal
@@ -36,6 +36,11 @@ Clone the repository
  
 ### Windows
 You have to install ffmpeg manually and set it to your path through your environment variables for ffsubsync to work.
+
+### Linux
+On Archlinux:
+
+`sudo pacman -S ffmpeg`
 
 ## Dependencies:
 - ffsubsync
