@@ -3,6 +3,8 @@ from colorama import Fore, Back, Style
 
 # Terminology
 # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
+# Instructions
+# Read README.md
 
 # Change below to True to synchronise all subtitles, new or old
 sync_all = True
