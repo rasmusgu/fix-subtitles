@@ -1,5 +1,5 @@
 # fix-subtitles
-Uses `sublimininal` to download missing subtitles and `ffsubsync` to synchronise them to their respective video files' audio streams
+Uses `subliminal` to download missing subtitles and `ffsubsync` to synchronise them to their respective video files' audio streams
 
 It's mainly for my personal use and at the moment is heavily hardcoded to specific instances
 
@@ -46,3 +46,4 @@ On Archlinux:
 - ffsubsync
 - ffmpeg
 - subliminal
+- colorama (optional for colored CLI output)
