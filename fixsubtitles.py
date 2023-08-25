@@ -105,7 +105,7 @@ def sync_subtitles(video_file):
 
     # Quoted variables due to blank spaces in filenames
     quoted_video_file = '"' + video_file + '"'
-    quoted_subtitle_file = '"', subtitle_file, '"'
+    quoted_subtitle_file = '"' + subtitle_file + '"'
     quoted_synced_subtitle_file = '"' + synced_subtitle_file + '"'
 
     # ffsubsync command with appropriate parameters
