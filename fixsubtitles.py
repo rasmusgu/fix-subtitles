@@ -1,14 +1,19 @@
 import os
-from colorama import Fore, Back, Style
+# print output formatting
+from colorama import Fore, Style  # , Back
 
 # Terminology
-# EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
+    # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 # Instructions
-# Read README.md
+    # Read README.md
 
-# Change below to True to synchronise all subtitles, new or old
-sync_all = True
 
+
+
+# OPTIONS #
+
+# Synchronise all subtitles, new and old
+SYNC_ALL = True
 # Supported video formats. Hardcoded
 video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
@@ -20,11 +25,17 @@ subtitle_format = ".srt"
 # Supported subtitle formats. To be implemented later
 subtitle_formats = ['.srt']  # wip
 
-# Creates a list of the current directory files
+
+# List of the current directory files
 current_directory_list = os.listdir(path='.')
-# Sort the list in lexicographical order
+# Directory files list in lexicographical order
 current_directory_list.sort()
 
+# Current directory/system path
+current_directory = os.getcwd()
+
+# Print current directory and its files
+print("Current directory: ", current_directory)
 print("Current directory files:", current_directory_list)
 
 
@@ -94,7 +105,7 @@ def sync_subtitles(video_file):
 
     # Quoted variables due to blank spaces in filenames
     quoted_video_file = '"' + video_file + '"'
-    quoted_subtitle_file = '"' + subtitle_file + '"'
+    quoted_subtitle_file = '"', subtitle_file, '"'
     quoted_synced_subtitle_file = '"' + synced_subtitle_file + '"'
 
     # ffsubsync command with appropriate parameters
@@ -108,14 +119,24 @@ def sync_subtitles(video_file):
 
 def synchronise_all():
     # Fancy coloring of colorama
-    print(Fore.RED + "Synchronising all " + Style.RESET_ALL + "subtitles to their respective videos")
+    print(Fore.RED + "Synchronising all "
+          + Style.RESET_ALL + "subtitles to their respective videos")
     # Synchronises all subtitles to their 
     # respective videos in current directory
     for episode in episodeList:
         sync_subtitles(episode)
 
 
+def clean_subtitles():
+    # Using https://github.com/KBlixt/subcleaner to clean subtitles of advertisements etc.
+
+    command = "python /home/ras/git/subcleaner/subcleaner.py " + subtitle_file
+    os.system(command)
+
 ############### END OF DEFINITIONS ###############
+
+
+
 
 # List of episodes
 episodeList = []
@@ -186,5 +207,5 @@ if len(no_subtitles) > 0:
         sync_subtitles(video)
     print("Done synchronising previously missing subtitles!")  # Add error checking
 
-if sync_all:
+if SYNC_ALL:
     synchronise_all()
