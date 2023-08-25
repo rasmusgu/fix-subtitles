@@ -7,9 +7,6 @@ from colorama import Fore, Style  # , Back
 # Instructions
     # Read README.md
 
-
-
-
 # OPTIONS #
 
 # Synchronise all subtitles, new and old
