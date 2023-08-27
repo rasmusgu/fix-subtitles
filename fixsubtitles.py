@@ -2,15 +2,13 @@ import os
 # print output formatting
 from colorama import Fore, Style  # , Back
 
-# Terminology
-    # EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
-# Instructions
-    # Read README.md
+# Terminology #
+# EAS = Episode And Season : In "S01E06" format, season = 01 and episode = 06
 
 # OPTIONS #
 
 # Synchronise all subtitles, new and old
-SYNC_ALL = True
+SYNC_ALL = False
 # Supported video formats. Hardcoded
 video_formats = ['.avi', '.mkv', '.mp4']
 # Preferred subtitle language
@@ -23,9 +21,9 @@ subtitle_format = ".srt"
 subtitle_formats = ['.srt']  # wip
 
 
-# List of the current directory files
+# List of current directory files
 current_directory_list = os.listdir(path='.')
-# Directory files list in lexicographical order
+# Directory files listed in lexicographical order
 current_directory_list.sort()
 
 # Current directory/system path
