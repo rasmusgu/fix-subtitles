@@ -111,6 +111,15 @@ def sync_subtitles(video_file):
     # Send command to be executed by "shell" or "system"
     os.system(command)
 
+def log_test():
+    test_string = "\ntest"
+    log_filename = 'log.txt'
+    try:
+        with open(log_filename, 'a') as log_file:
+            log_file.write(test_string)
+            print("Activity logged to", os.path.abspath(log_filename))
+    except:
+        print("Something went wrong with logging")
 
 def synchronise_all():
     # Fancy coloring of colorama
@@ -128,8 +137,10 @@ def clean_subtitles():
     command = "python /home/ras/git/subcleaner/subcleaner.py " + subtitle_file
     os.system(command)
 
-############### END OF DEFINITIONS ###############
+############### END OF DEFINITIONS ###############
 
+
+log_test()
 
 # List initialisation
 episodeList = []
@@ -145,7 +156,9 @@ for file in current_directory_list:
 # Print test
 # print("Episode list: ", episodeList)
 seasonLength = len(episodeList)
-print("Amount of episodes: ", seasonLength)
+print("Amount of episodes: ", seasonLength)
+
+
 subtitleAmount = len(subtitle_list)
 print("Amount of subtitles: ", subtitleAmount)
 
