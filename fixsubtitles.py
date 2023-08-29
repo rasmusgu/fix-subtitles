@@ -128,30 +128,24 @@ def clean_subtitles():
     command = "python /home/ras/git/subcleaner/subcleaner.py " + subtitle_file
     os.system(command)
 
-############### END OF DEFINITIONS ###############
+############### END OF DEFINITIONS ###############
 
 
-
-
-# List of episodes
+# List initialisation
 episodeList = []
+subtitle_list = []
 
 for file in current_directory_list:
     if any(format in file for format in video_formats):
         # Print test
         # print(format)
         episodeList.append(file)
+    elif ".srt" in file:
+        subtitle_list.append(file)
 # Print test
 # print("Episode list: ", episodeList)
 seasonLength = len(episodeList)
-print("Amount of episodes: ", seasonLength)
-
-# List of subtitles
-subtitle_list = []
-
-for file in current_directory_list:
-    if ".srt" in file:
-        subtitle_list.append(file)
+print("Amount of episodes: ", seasonLength)
 subtitleAmount = len(subtitle_list)
 print("Amount of subtitles: ", subtitleAmount)
 
