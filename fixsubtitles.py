@@ -127,7 +127,7 @@ def synchronise_all():
           + Style.RESET_ALL + "subtitles to their respective videos")
     # Synchronises all subtitles to their 
     # respective videos in current directory
-    for episode in episodeList:
+    for episode in episode_list:
         sync_subtitles(episode)
 
 
@@ -143,31 +143,31 @@ def clean_subtitles():
 log_test()
 
 # List initialisation
-episodeList = []
+episode_list = []
 subtitle_list = []
 
 for file in current_directory_list:
     if any(format in file for format in video_formats):
         # Print test
         # print(format)
-        episodeList.append(file)
+        episode_list.append(file)
     elif ".srt" in file:
         subtitle_list.append(file)
 # Print test
-# print("Episode list: ", episodeList)
-seasonLength = len(episodeList)
-print("Amount of episodes: ", seasonLength)
+# print("Episode list: ", episode_list)
+season_length = len(episode_list)
+print("Amount of episodes: ", season_length)
 
 
-subtitleAmount = len(subtitle_list)
-print("Amount of subtitles: ", subtitleAmount)
+subtitle_sum = len(subtitle_list)
+print("Amount of subtitles: ", subtitle_sum)
 
 # List of episodes without matches
 no_subtitles = []
 
 print("Checking for missing subtitles")
 # Checks if a video file is missing a subtitle file
-for episode in episodeList:
+for episode in episode_list:
     # Print testing
     # print("New episode : ", episode_and_season(episode))
 
