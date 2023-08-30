@@ -83,7 +83,7 @@ def download_subtitles(video_file):
 
 
 # Syncs the chosen video's subtitles to its audio reel using ffsubsync
-def sync_subtitles(video_file):
+def sync_subtitle(video_file):
     # print("Synchronising subtitles for ", video_file, " using ffsubsync")
 
     # Video title's "EAS"
@@ -128,7 +128,7 @@ def synchronise_all():
     # Synchronises all subtitles to their 
     # respective videos in current directory
     for video in video_list:
-        sync_subtitles(video)
+        sync_subtitle(video)
 
 
 def clean_subtitles(subtitle_file):
@@ -201,7 +201,7 @@ if video_sum > 0:
         # Useless? Make synchronisation universal?
         print("Synchronising previously missing subtitles!")
         for video in no_subtitles:
-            sync_subtitles(video)
+            sync_subtitle(video)
         print("Done synchronising previously missing subtitles!")  # Add error checking
 
 if SYNC_ALL:
