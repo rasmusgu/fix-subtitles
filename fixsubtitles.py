@@ -174,8 +174,11 @@ if video_sum > 0:
             if episode_and_season(video) == episode_and_season(subtitle):
                 match = True
                 # Print testing
-                print("It's a match for video ", episode_and_season(video),
-                    " and subtitle", episode_and_season(subtitle))
+                # prints file names
+                print("It's a match for video ", video, " and subtitle ", subtitle)
+                # is supposed to print episode and season -- doesn't?
+                """print("It's a match for video ", episode_and_season(video),
+                    " and subtitle", episode_and_season(subtitle)) """
         if not match:
             no_subtitles.append(video)
 
