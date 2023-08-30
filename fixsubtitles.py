@@ -131,7 +131,7 @@ def synchronise_all():
         sync_subtitles(video)
 
 
-def clean_subtitles():
+def clean_subtitles(subtitle_file):
     # Using https://github.com/KBlixt/subcleaner to clean subtitles of advertisements etc.
 
     command = "python /home/ras/git/subcleaner/subcleaner.py " + subtitle_file
