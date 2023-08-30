@@ -31,7 +31,7 @@ current_directory = os.getcwd()
 
 # Print current directory and its files
 print("Current directory: ", current_directory)
-print("Current directory files:", current_directory_list)
+#print("Current directory files:", current_directory_list)
 
 
 # Checks a filename for its episode and season, if applicable       # Currently only episode
@@ -90,7 +90,7 @@ def sync_subtitles(video_file):
     vid_EAS = episode_and_season(video_file)
     # Subtitle filename matching video's "EAS"
     subtitle_file = get_sub(vid_EAS, subtitle_list)
-    check_match(video_file, subtitle_file)  # Useless since they've already been matched above
+    #check_match(video_file, subtitle_file)  # Useless since they've already been matched above
 
     # Synced subtitle format
     synced_subtitle_format = ".retimed" + subtitle_format
@@ -127,8 +127,8 @@ def synchronise_all():
           + Style.RESET_ALL + "subtitles to their respective videos")
     # Synchronises all subtitles to their 
     # respective videos in current directory
-    for episode in episode_list:
-        sync_subtitles(episode)
+    for video in video_list:
+        sync_subtitles(video)
 
 
 def clean_subtitles():
@@ -143,71 +143,66 @@ def clean_subtitles():
 log_test()
 
 # List initialisation
-episode_list = []
+video_list = []
 subtitle_list = []
 
 for file in current_directory_list:
     if any(format in file for format in video_formats):
         # Print test
         # print(format)
-        episode_list.append(file)
+        video_list.append(file)
     elif ".srt" in file:
         subtitle_list.append(file)
 # Print test
-# print("Episode list: ", episode_list)
-season_length = len(episode_list)
-print("Amount of episodes: ", season_length)
-
+# print("Episode list: ", video_list)
+video_sum = len(video_list)
+print("Amount of episodes: ", video_sum)
 
 subtitle_sum = len(subtitle_list)
-print("Amount of subtitles: ", subtitle_sum)
+print("Amount of external subtitles: ", subtitle_sum)
 
 # List of episodes without matches
 no_subtitles = []
 
-print("Checking for missing subtitles")
-# Checks if a video file is missing a subtitle file
-for episode in episode_list:
-    # Print testing
-    # print("New episode : ", episode_and_season(episode))
+if video_sum > 0:
+    print("Checking for missing subtitles")
+    # Checks if a video file is missing a subtitle file
+    for video in video_list:
+        # Resets the match variable to False
+        match = False
+        for subtitle in subtitle_list:
+            if episode_and_season(video) == episode_and_season(subtitle):
+                match = True
+                # Print testing
+                print("It's a match for video ", episode_and_season(video),
+                    " and subtitle", episode_and_season(subtitle))
+        if not match:
+            no_subtitles.append(video)
 
-    # Resets the match variable to False
-    match = False
-    for subtitle in subtitle_list:
-        if episode_and_season(episode) == episode_and_season(subtitle):
-            match = True
-            # Print testing
-            print("It's a match for episode ", episode_and_season(episode),
-                  " and subtitle", episode_and_season(subtitle))
-    if not match:
-        no_subtitles.append(episode)
+    # Corrects next code block's spelling to singular or plural 
+    # based on amount referred to (elements of no_subtitles list)
+    was_or_were = "were "
+    ep_or_eps = " videos"
+    if len(no_subtitles) == 1:
+        was_or_were = "was "
+        ep_or_eps = " video"
 
-# Corrects next code block's spelling to singular or plural 
-# based on amount referred to (elements of no_subtitles list)
-was_or_were = "were "
-ep_or_eps = " episodes"
-if len(no_subtitles) == 1:
-    was_or_were = "was "
-    ep_or_eps = " episode"
-
-# Print episode(s) without subtitles
-print("There ", was_or_were, len(no_subtitles),
-      ep_or_eps, " without external* subtitle(s), as follows: ",
-      no_subtitles)
-
-# Only runs if 1 or more subtitles were missing                  
-if len(no_subtitles) > 0:
-    # Download subtitles for episodes missing .srt file
-    print("Downloading missing subtitles")
-    for episode in no_subtitles:
-        download_subtitles(episode)
-    print("Done downloading missing subtitles!")  # Add error checking
-    # Synchronises previously missing subtitles to their respective videos
-    # Useless? Make synchronisation universal?
-    print("Synchronising previously missing subtitles!")
-    for video in no_subtitles:
-        sync_subtitles(video)
-    print("Done synchronising previously missing subtitles!")  # Add error checking
+    # Only runs if 1 or more subtitles were missing                  
+    if len(no_subtitles) > 0:
+        # Print video(s) without subtitles
+        print("There ", was_or_were, len(no_subtitles),
+        ep_or_eps, " without external* subtitle(s), as follows: ",
+        no_subtitles)
+        # Download subtitles for episodes missing .srt file
+        for video in no_subtitles:
+            download_subtitles(video)
+        print("Done downloading missing subtitles!")  # Add error checking
+        # Synchronises previously missing subtitles to their respective videos
+        # Useless? Make synchronisation universal?
+        print("Synchronising previously missing subtitles!")
+        for video in no_subtitles:
+            sync_subtitles(video)
+        print("Done synchronising previously missing subtitles!")  # Add error checking
 
 if SYNC_ALL:
     synchronise_all()
