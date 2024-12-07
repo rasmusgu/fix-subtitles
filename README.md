@@ -14,6 +14,9 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 		- currently hardcoded for the English language
 - subcleaner
 	- removes ads from subtitles
+- embedded subtitles
+ 	- automatically checks for embedded subtitles
+ 	- possiblity to extract subtitles
 
 ### WIP:
 - Interface
@@ -21,7 +24,6 @@ It's mainly for my personal use and at the moment is heavily hardcoded to specif
 	- synchronise all or a single subtitle
 - Support for various media formats and languages
 	- currently only avi/mp4/mkv and "en" 
-- Looking to support integrated subtitles
 
 # Installation
 
