@@ -30,7 +30,7 @@ subtitle_lang_formats = ['.en', '.eng']  # deprecated
 subrip_format = ".srt"
 # Supported subtitle formats. To be implemented later
 subtitle_formats = ['.srt', '.ass']
-subcleaner = "/home/ras/git/subcleaner/subcleaner.py"
+subcleaner = f"{os.environ['HOME']}/git/subcleaner/subcleaner.py"
 
 # List of current directory files
 current_directory_list = os.listdir(path='.')
