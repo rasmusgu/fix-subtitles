@@ -1,0 +1,11 @@
+## Alternative subtitle generation
+- speech recognition
+- burnt-subs OCR
+- translate other language subs
+
+## Episode/sub recognition
+- Recursive directory analysis
+    - Per series, season, episode or entire media library
+
+## Interface
+- Add flags / arguments / options
